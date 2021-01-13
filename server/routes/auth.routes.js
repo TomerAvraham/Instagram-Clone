@@ -8,13 +8,18 @@ const authRegister = require("../middleware/register.middleware");
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-    console.log(username);
+
+    if (!username || !password) {
+      return res.status(400).send({ message: "Missing details" });
+    }
+
     let findUserQuery = "";
     if (Isemail.validate(username)) {
       findUserQuery = "SELECT * FROM users where email = ?";
     } else {
       findUserQuery = `SELECT * FROM users where username = ?`;
     }
+
     const result = await Query(findUserQuery, username);
     if (!result.length) {
       return res.status(400).send({ message: "User doesn't exist" });
