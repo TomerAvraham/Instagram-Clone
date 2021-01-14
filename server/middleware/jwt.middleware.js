@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const authJWT = (req, res, next) => {
+const authJwt = (req, res, next) => {
   const token = req.headers["x-access-token"];
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
@@ -14,4 +14,4 @@ const authJWT = (req, res, next) => {
   });
 };
 
-module.exports = authJWT;
+module.exports = authJwt;

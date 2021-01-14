@@ -3,7 +3,13 @@ const Isemail = require("isemail");
 
 const authRegister = async (req, res, next) => {
   try {
-    const { email, username, password, confirmPassword, profilePhotoUrl } = req.body;
+    const {
+      email,
+      username,
+      password,
+      confirmPassword,
+      profilePhotoUrl,
+    } = req.body;
     if (password !== confirmPassword) {
       return res.status(400).send({ message: "Passwords does not match" });
     }
@@ -14,7 +20,7 @@ const authRegister = async (req, res, next) => {
       return res.status(400).send({ message: "Email is not valid" });
     }
     if (!profilePhotoUrl) {
-      return res.status(400).send({ message: "Photo is require" });
+      return res.status(400).send({ message: "Gender is require" });
     }
     if (!password) {
       return res.status(400).send({ message: "Password is require" });

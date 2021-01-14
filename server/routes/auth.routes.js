@@ -8,7 +8,6 @@ const authRegister = require("../middleware/register.middleware");
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-
     if (!username || !password) {
       return res.status(400).send({ message: "Missing details" });
     }

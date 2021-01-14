@@ -28,7 +28,7 @@ export const login = ({ username, password }) => async (dispatch) => {
     if (res.status >= 400) {
       return dispatch({
         type: LOGIN_FAIL,
-        payload: data,
+        payload: data.message,
       });
     }
 
@@ -43,6 +43,41 @@ export const login = ({ username, password }) => async (dispatch) => {
     console.log(error);
     dispatch({
       type: LOGIN_FAIL,
+      payload: error,
+    });
+  }
+};
+
+export const register = (newUser) => async (dispatch) => {
+  try {
+    dispatch({
+      type: REGISTER_REQUEST,
+    });
+
+    const res = await fetch(BASE_URL + "auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    });
+
+    const data = await res.json();
+
+    if (res.status >= 400) {
+      return dispatch({
+        type: REGISTER_FAIL,
+        payload: data.message,
+      });
+    }
+
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: REGISTER_FAIL,
       payload: error,
     });
   }

@@ -29,11 +29,11 @@ export const loginReducer = (state = {}, action) => {
 export const registerReducer = (state = {}, action) => {
   switch (action.type) {
     case REGISTER_REQUEST:
-      return { loading: true };
+      return { loading: true, isCreate: false, error: null };
     case REGISTER_SUCCESS:
-      return { loading: false, userInfo: action.payload };
+      return { loading: false, isCreate: true, error: null };
     case REGISTER_FAIL:
-      return { loading: false, error: action.payload };
+      return { loading: false, isCreate: false, error: action.payload };
     case LOGOUT:
       return {};
     default:

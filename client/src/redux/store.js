@@ -29,6 +29,11 @@ const initialState = {
     error: null,
     userInfo,
   },
+  userRegister: {
+    loading: false,
+    isCreate: false,
+    error: null,
+  },
 };
 
 const middleware = [thunk];
