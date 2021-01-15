@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -13,6 +13,10 @@ import InstagramIcon from "@material-ui/icons/Instagram";
 import Avatar from "@material-ui/core/Avatar";
 import ExploreIcon from "@material-ui/icons/Explore";
 import { NavLink } from "react-router-dom";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { logout } from "../../redux/actions/userActions";
 import "./Navbar.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -80,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       width: "12ch",
       "&:focus": {
-        width: "20ch",
+        width: "35ch",
       },
     },
   },
@@ -97,7 +101,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = ({ userInfo }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
   const classes = useStyles();
+
+  const handelProfileMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handelProfileMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <div className={classes.root}>
@@ -146,17 +161,40 @@ const Navbar = ({ userInfo }) => {
                     <FavoriteIcon fontSize="large" />
                   </IconButton>
                 </NavLink>
+                <NavLink to="/addPost">
+                  <IconButton>
+                    <AddCircleIcon fontSize="large" />
+                  </IconButton>
+                </NavLink>
               </div>
             </div>
           </div>
           <div className={classes.flexChild}>
             <div className={classes.avatar}>
-              <IconButton>
+              <IconButton onClick={handelProfileMenu}>
                 <Avatar
                   alt={userInfo.user.username}
                   src={userInfo.user.profilePhotoUrl}
                 />
               </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                vent
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={open}
+                onClose={handelProfileMenuClose}
+              >
+                <MenuItem onClick={handelProfileMenuClose}>My Profile</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
+              </Menu>
             </div>
           </div>
         </Toolbar>

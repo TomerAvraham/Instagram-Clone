@@ -2,12 +2,14 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { loginReducer, registerReducer } from "./reducers/userReducers";
+import { postsReducer } from "./reducers/postReducer";
 
 import jwt_decode from "jwt-decode";
 
 const reducer = combineReducers({
   userLogin: loginReducer,
   userRegister: registerReducer,
+  userPosts: postsReducer
 });
 
 const userInfo = localStorage.getItem("accessToken")

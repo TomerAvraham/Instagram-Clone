@@ -1,0 +1,7 @@
+.comment-container {
+  width: 100%;
+  min-height: 30px;
+  max-height: 60px;
+  display: flex;
+  align-items: center;
+}

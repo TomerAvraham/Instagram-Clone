@@ -7,6 +7,8 @@ import {
   REGISTER_SUCCESS,
 } from "../types/userTypes";
 
+import { configHeaders } from "../../helpers/configHeaders";
+
 const BASE_URL = "http://localhost:5000/api/";
 
 export const login = ({ username, password }) => async (dispatch) => {
@@ -17,9 +19,7 @@ export const login = ({ username, password }) => async (dispatch) => {
 
     const res = await fetch(BASE_URL + "auth/login", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: configHeaders(),
       body: JSON.stringify({ username, password }),
     });
 
@@ -56,9 +56,7 @@ export const register = (newUser) => async (dispatch) => {
 
     const res = await fetch(BASE_URL + "auth/register", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: configHeaders(),
       body: JSON.stringify(newUser),
     });
 
@@ -81,4 +79,10 @@ export const register = (newUser) => async (dispatch) => {
       payload: error,
     });
   }
+};
+
+export const logout = () => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  document.location.href = "/login";
 };

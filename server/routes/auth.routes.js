@@ -63,7 +63,7 @@ router.post("/register", authRegister, async (req, res) => {
 
 router.post("/token", (req, res) => {
   const { refreshToken } = req.body;
-  if (!refreshToken) return res.sendStatus(403);
+  if (!refreshToken) return res.status(403).send({message: "No Token Provided"});
   jwt.verify(
     refreshToken,
     process.env.REFRESH_TOKEN_SECRET,

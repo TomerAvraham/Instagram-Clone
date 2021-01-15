@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Chat from "./views/Chat/Chat";
 import Profile from "./views/Profile/Profile";
 import LikedPosts from "./views/LikedPosts/LikedPosts";
+import AddPost from "./views/AddPost/AddPost";
 
 const App = () => {
   const userLogin = useSelector((state) => state.userLogin);
@@ -39,6 +40,11 @@ const App = () => {
           path="/likes"
           exact
           render={() => (isAuth ? <LikedPosts /> : <Redirect to="/login" />)}
+        />
+        <Route
+          path="/addPost"
+          exact
+          render={() => (isAuth ? <AddPost /> : <Redirect to="/login" />)}
         />
       </Switch>
     </div>
