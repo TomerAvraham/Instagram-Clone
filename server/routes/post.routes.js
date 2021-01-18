@@ -81,4 +81,31 @@ router.post("/add", authJwt, async (req, res) => {
   }
 });
 
+router.get("/allByLike", authJwt, async (req, res) => {
+  try {
+    const posts_q = `SELECT posts.id, posts.create_at, posts.url, users.username, users.profilePhotoUrl 
+    FROM posts  inner join likes on posts.id = likes.postId
+inner join users where posts.userId = users.id and  likes.userWhoLikeId = ?`;
+    let posts = await Query(posts_q, req.user.id);
+
+    for (let i = 0; i < posts.length; i++) {
+      const postLikes_q = `SELECT userWhoLikeId as userId, users.username FROM likes
+      inner join users on users.id = userWhoLikeId  where postId = ?
+     `;
+      const postComments_q = `SELECT users.username as commentUserUsername, users.profilePhotoUrl, comments.id,  comments.commentUserId, comments.create_at, 
+      comments.comment FROM comments inner join users on comments.commentUserId = users.id where postId = ?;`;
+
+      const likes = await Query(postLikes_q, posts[i].id);
+      const comment = await Query(postComments_q, posts[i].id);
+
+      posts[i] = { ...posts[i], likes, comment };
+    }
+
+    res.status(200).send({ posts });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Something want wrong. Please try again" });
+  }
+});
+
 module.exports = router;

@@ -4,4 +4,24 @@
   max-height: 60px;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+}
+
+.comment-container > p {
+  padding-left: 10px;
+}
+
+.comment-date {
+  padding-right: 10px;
+  margin-left: auto;
+  color: #747d8c;
+}
+
+.comment-username {
+  font-size: 1rem;
+  color: #2f3542;
+}
+
+.comment-comment {
+  font-size: 1.3rem;
 }

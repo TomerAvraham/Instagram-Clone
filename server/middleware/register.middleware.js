@@ -10,9 +10,6 @@ const authRegister = async (req, res, next) => {
       confirmPassword,
       profilePhotoUrl,
     } = req.body;
-    if (password !== confirmPassword) {
-      return res.status(400).send({ message: "Passwords does not match" });
-    }
     if (!email) {
       return res.status(400).send({ message: "Email is require" });
     }
@@ -24,6 +21,12 @@ const authRegister = async (req, res, next) => {
     }
     if (!password) {
       return res.status(400).send({ message: "Password is require" });
+    }
+    if (password !== confirmPassword) {
+      return res.status(400).send({ message: "Passwords does not match" });
+    }
+    if (password < 6) {
+      return res.status(400).send({ message: "Password need at least 6 characters" });
     }
 
     const validUserName_q = `SELECT username FROM users WHERE username = ?`;

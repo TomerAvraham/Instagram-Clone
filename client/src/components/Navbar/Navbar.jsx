@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+import { Toolbar, Fab } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
@@ -13,16 +13,17 @@ import InstagramIcon from "@material-ui/icons/Instagram";
 import Avatar from "@material-ui/core/Avatar";
 import ExploreIcon from "@material-ui/icons/Explore";
 import { NavLink } from "react-router-dom";
+import { KeyboardArrowUp } from "@material-ui/icons";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { logout } from "../../redux/actions/userActions";
-import "./Navbar.css";
+import HideOnScroll from "./HideOnScroll";
+import BackToTop from "./BackToTop";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    background: "red",
   },
   navbarWrapper: {
     background: "#ffffff",
@@ -116,89 +117,106 @@ const Navbar = ({ userInfo }) => {
 
   return (
     <div className={classes.root}>
-      <AppBar elevation={1} className={classes.navbarWrapper} position="static">
-        <Toolbar className={classes.toolFlex}>
-          <div className={classes.flexChild}>
-            <InstagramIcon className={classes.logo} fontSize="large" />
-            <Typography className={classes.title} variant="h6" noWrap>
-              UltraGram
-            </Typography>
-          </div>
-          <div className={classes.flexChild}>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-              />
+      <HideOnScroll>
+        <AppBar
+          elevation={1}
+          className={classes.navbarWrapper}
+          position="static"
+        >
+          <Toolbar className={classes.toolFlex}>
+            <div className={classes.flexChild}>
+              <InstagramIcon className={classes.logo} fontSize="large" />
+              <Typography className={classes.title} variant="h6" noWrap>
+                <code style={{ fontSize: "150%" }}>UltraGram</code>
+              </Typography>
             </div>
-          </div>
-          <div className={classes.flexChild}>
-            <div className={classes.links}>
-              <div className={classes.icon}>
-                <NavLink to="/">
-                  <IconButton>
-                    <ExploreIcon fontSize="large" />
-                  </IconButton>
-                </NavLink>
-              </div>
-              <div className={classes.icon}>
-                <NavLink to="/chat">
-                  <IconButton>
-                    <ChatIcon fontSize="large" />
-                  </IconButton>
-                </NavLink>
-              </div>
-              <div className={classes.icon}>
-                <NavLink to="/likes">
-                  <IconButton>
-                    <FavoriteIcon fontSize="large" />
-                  </IconButton>
-                </NavLink>
-                <NavLink to="/addPost">
-                  <IconButton>
-                    <AddCircleIcon fontSize="large" />
-                  </IconButton>
-                </NavLink>
-              </div>
-            </div>
-          </div>
-          <div className={classes.flexChild}>
-            <div className={classes.avatar}>
-              <IconButton onClick={handelProfileMenu}>
-                <Avatar
-                  alt={userInfo.user.username}
-                  src={userInfo.user.profilePhotoUrl}
+            <div className={classes.flexChild}>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
                 />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                vent
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={open}
-                onClose={handelProfileMenuClose}
-              >
-                <MenuItem onClick={handelProfileMenuClose}>My Profile</MenuItem>
-                <MenuItem onClick={logout}>Logout</MenuItem>
-              </Menu>
+              </div>
             </div>
-          </div>
-        </Toolbar>
-      </AppBar>
+            <div className={classes.flexChild}>
+              <div className={classes.links}>
+                <div className={classes.icon}>
+                  <NavLink to="/">
+                    <IconButton>
+                      <ExploreIcon fontSize="large" />
+                    </IconButton>
+                  </NavLink>
+                </div>
+                <div className={classes.icon}>
+                  <NavLink to="/chat">
+                    <IconButton>
+                      <ChatIcon fontSize="large" />
+                    </IconButton>
+                  </NavLink>
+                </div>
+                <div className={classes.icon}>
+                  <NavLink to="/likes">
+                    <IconButton>
+                      <FavoriteIcon fontSize="large" />
+                    </IconButton>
+                  </NavLink>
+                  <NavLink to="/addPost">
+                    <IconButton>
+                      <AddCircleIcon fontSize="large" />
+                    </IconButton>
+                  </NavLink>
+                </div>
+              </div>
+            </div>
+            <div className={classes.flexChild}>
+              <div className={classes.avatar}>
+                <IconButton onClick={handelProfileMenu}>
+                  <Avatar
+                    alt={userInfo.user.username}
+                    src={userInfo.user.profilePhotoUrl}
+                  />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  vent
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={open}
+                  onClose={handelProfileMenuClose}
+                >
+                  <MenuItem onClick={handelProfileMenuClose}>
+                    My Profile
+                  </MenuItem>
+                  <MenuItem onClick={logout}>Logout</MenuItem>
+                </Menu>
+              </div>
+            </div>
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
+      <Toolbar
+        id="back-to-top-anchor"
+        style={{ maxHeight: "1px", position: "absolute" }}
+      />
+      <BackToTop>
+        <Fab size="large" aria-label="scroll back to top">
+          <KeyboardArrowUp />
+        </Fab>
+      </BackToTop>
     </div>
   );
 };

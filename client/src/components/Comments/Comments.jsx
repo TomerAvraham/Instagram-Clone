@@ -40,7 +40,13 @@ const Comments = ({ comments, postId }) => {
   };
 
   const handelAddComment = () => {
-    dispatch(commentPost(postId, commentInput));
+    if(`${document.location.href}`.split("/").pop() === ''){
+      dispatch(commentPost(postId, commentInput));
+      
+    } else {
+      dispatch(commentPost(postId, commentInput, true));
+
+    }
     setCommentInput("");
   };
 

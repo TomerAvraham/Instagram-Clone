@@ -10,8 +10,10 @@ import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import Comments from "../Comments/Comments";
+import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import { likePost, unlikePost } from "../../redux/actions/postActions";
+import "./Post.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 0,
     paddingTop: "56.25%",
+  },
+  avatar: {
+    width: theme.spacing(6),
+    height: theme.spacing(6),
+    marginRight: "20px",
   },
 }));
 
@@ -39,33 +46,41 @@ const Post = ({ post }) => {
 
   const LikePost = () => {
     setLiked(!liked);
-    dispatch(likePost(post.id));
+    if (`${document.location.href}`.split("/").pop() === "") {
+      dispatch(likePost(post.id));
+    } else {
+      dispatch(likePost(post.id, true));
+    }
   };
 
   const unLikePost = () => {
     setLiked(!liked);
-    dispatch(unlikePost(post.id));
+    if (`${document.location.href}`.split("/").pop() === "") {
+      dispatch(unlikePost(post.id));
+    } else {
+      dispatch(unlikePost(post.id, true));
+    }
   };
 
   return (
     <Card elevation={2} className={classes.root}>
-      <CardHeader
-        avatar={
+      <CardContent className="card-header-wrapper">
+        <div className="card-header">
           <Avatar
             src={post.profilePhotoUrl}
             alt={post.username}
             className={classes.avatar}
           />
-        }
-        title={post.username}
-        subheader={post.create_at}
-      />
+          <h2>{post.username}</h2>
+          <p className="post-date" >{moment(post.create_at).fromNow()}</p>
+        </div>
+      </CardContent>
       <CardMedia
         className={classes.media}
         image={post.url}
         title="Paella dish"
       />
-      <CardActions disableSpacing>
+      <CardActions className="post-comment-container" disableSpacing>
         {liked ? (
           <IconButton onClick={unLikePost}>
             <FavoriteIcon style={{ fontSize: "45px" }} />

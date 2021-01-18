@@ -39,7 +39,7 @@ const Login = () => {
       <div className="login-wrapper">
         {loading && <Loader />}
         <form onSubmit={(e) => handelSubmit(e)} className="login-form">
-          <h1 className="form-header">UltraGram</h1>
+          <h1 className="form-header"><code>UltraGram</code></h1>
           <TextField
             onChange={(e) => handelChange(e)}
             name="username"
@@ -65,7 +65,7 @@ const Login = () => {
             variant="contained"
             color="primary"
           >
-            Sign Up
+            LOG IN
           </Button>
           <p>
             Don't have account? <Link to="/register">Register</Link>

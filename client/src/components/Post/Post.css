@@ -1,0 +1,21 @@
+.card-header-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.card-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 90%;
+}
+
+.post-comment-container {
+  padding: 0 10px !important;
+}
+
+.post-date {
+  color: #57606f;
+  margin: auto 0 0 auto;
+}

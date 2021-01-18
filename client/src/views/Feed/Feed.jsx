@@ -4,6 +4,8 @@ import { getAllPosts } from "../../redux/actions/postActions";
 import Loader from "../../components/Loader/Loader";
 import Container from "@material-ui/core/Container";
 import Post from "../../components/Post/Post";
+import Message from "../../components/Message/Message";
+
 import "./Feed.css";
 
 const Feed = () => {
@@ -17,12 +19,15 @@ const Feed = () => {
   }, [dispatch]);
 
   return (
-    <div className="feed-wrapper">
-      {loading && <Loader />}
-      <Container maxWidth="sm">
-        {posts && posts.map((post, i) => <Post post={post} key={i} />)}
-      </Container>
-    </div>
+    <>
+      {error && <Message message={"Something want wrong"} />}
+      <div className="feed-wrapper">
+        {loading && <Loader />}
+        <Container maxWidth="sm">
+          {posts && posts.map((post, i) => <Post post={post} key={i} />)}
+        </Container>
+      </div>
+    </>
   );
 };
 

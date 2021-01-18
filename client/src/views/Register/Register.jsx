@@ -16,9 +16,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { green } from "@material-ui/core/colors";
 import { red } from "@material-ui/core/colors";
-import Fab from "@material-ui/core/Fab";
-import CheckIcon from "@material-ui/icons/Check";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import CheckIcon from "@material-ui/icons/Check";
+import Fab from "@material-ui/core/Fab";
 import ClearIcon from "@material-ui/icons/Clear";
 import { useSelector, useDispatch } from "react-redux";
 import { register } from "../../redux/actions/userActions";
@@ -215,7 +215,7 @@ const Register = () => {
               className={buttonClassname}
               disabled={loading}
             >
-              Accept terms
+              SIGN UP
             </Button>
             {loading && (
               <CircularProgress size={24} className={classes.buttonProgress} />
