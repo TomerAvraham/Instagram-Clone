@@ -18,7 +18,7 @@ const LikedPosts = () => {
 
   return (
     <>
-      {error && <Message message={"Something want wrong"} />}
+      {error && <Message message={"Something went wrong"} />}
       <div className="feed-wrapper">
         {loading && <Loader />}
         <Container maxWidth="sm">

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Register from "./views/Register/Register";
 import Login from "./views/Login/Login";
 import Feed from "./views/Feed/Feed";
@@ -10,10 +10,24 @@ import Chat from "./views/Chat/Chat";
 import Profile from "./views/Profile/Profile";
 import LikedPosts from "./views/LikedPosts/LikedPosts";
 import AddPost from "./views/AddPost/AddPost";
+import { getAccessToken } from "./redux/actions/userActions";
+import SinglePost from "./views/SinglePost/SinglePost";
 
 const App = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { isAuth, userInfo } = userLogin;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (
+      userInfo &&
+      localStorage.refreshToken &&
+      new Date() >= userInfo?.exp * 1000
+    ) {
+      dispatch(getAccessToken());
+    }
+  }, [dispatch, userInfo]);
 
   return (
     <div className="app-root">
@@ -27,14 +41,20 @@ const App = () => {
           render={() => (isAuth ? <Feed /> : <Redirect to="/login" />)}
         />
         <Route
+          path="/profile/:userId"
+          exact
+          render={() => (isAuth ? <Profile /> : <Redirect to="/login" />)}
+        />
+        <Route
+          path="/post/:postId"
+          exact
+          render={() => (isAuth ? <SinglePost /> : <Redirect to="/login" />)}
+        />
+
+        <Route
           path="/chat"
           exact
           render={() => (isAuth ? <Chat /> : <Redirect to="/login" />)}
-        />
-        <Route
-          path="/profile/:id"
-          exact
-          render={() => (isAuth ? <Profile /> : <Redirect to="/login" />)}
         />
         <Route
           path="/likes"

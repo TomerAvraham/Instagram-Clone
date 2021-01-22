@@ -12,7 +12,6 @@ const BackToTop = ({ children }) => {
   const trigger = useScrollTrigger();
 
   const handleClick = (event) => {
-    console.log("im here");
     const anchor = (event.target.ownerDocument || document).querySelector(
       "#back-to-top-anchor"
     );

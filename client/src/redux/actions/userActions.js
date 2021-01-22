@@ -2,9 +2,13 @@ import {
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  LOGOUT,
   REGISTER_FAIL,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  ACCESS_TOKEN_FAIL,
+  ACCESS_TOKEN_REQUEST,
+  ACCESS_TOKEN_SUCCESS,
 } from "../types/userTypes";
 
 import { configHeaders } from "../../helpers/configHeaders";
@@ -81,8 +85,45 @@ export const register = (newUser) => async (dispatch) => {
   }
 };
 
-export const logout = () => {
+export const logout = () => (dispatch) => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
+  dispatch({ type: LOGOUT });
   document.location.href = "/login";
+};
+
+export const getAccessToken = () => async (dispatch) => {
+  try {
+    dispatch({ type: ACCESS_TOKEN_REQUEST });
+
+    const refreshToken = localStorage.getItem("refreshToken")
+      ? JSON.parse(localStorage.getItem("refreshToken").toString())
+      : null;
+
+    if (refreshToken === null) {
+      return dispatch({
+        type: ACCESS_TOKEN_FAIL,
+        payload: "Login again please",
+      });
+    }
+
+    const res = await fetch(BASE_URL + "auth/token", {
+      method: "POST",
+      headers: configHeaders(),
+      body: JSON.stringify({ refreshToken }),
+    });
+
+    const data = await res.json();
+    localStorage.setItem("accessToken", JSON.stringify(data.accessToken));
+
+    dispatch({
+      type: ACCESS_TOKEN_SUCCESS,
+      payload: data.accessToken,
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: ACCESS_TOKEN_FAIL,
+    });
+  }
 };

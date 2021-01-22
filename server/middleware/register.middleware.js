@@ -25,7 +25,7 @@ const authRegister = async (req, res, next) => {
     if (password !== confirmPassword) {
       return res.status(400).send({ message: "Passwords does not match" });
     }
-    if (password < 6) {
+    if (password.length < 6) {
       return res.status(400).send({ message: "Password need at least 6 characters" });
     }
 
@@ -40,7 +40,6 @@ const authRegister = async (req, res, next) => {
       return res.status(409).send({ message: "Email already exist" });
     }
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .send({ message: "Something want wrong. Tty again later" });

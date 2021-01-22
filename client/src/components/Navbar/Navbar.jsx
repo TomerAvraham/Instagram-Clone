@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import { Toolbar, Fab } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
+import TextField from "@material-ui/core/TextField";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -12,14 +13,17 @@ import SearchIcon from "@material-ui/icons/Search";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import Avatar from "@material-ui/core/Avatar";
 import ExploreIcon from "@material-ui/icons/Explore";
-import { NavLink } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { KeyboardArrowUp } from "@material-ui/icons";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { logout } from "../../redux/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
 import HideOnScroll from "./HideOnScroll";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import BackToTop from "./BackToTop";
+import { getAllProfiles } from "../../redux/actions/profileActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       width: "12ch",
       "&:focus": {
-        width: "35ch",
+        width: "30ch",
       },
     },
   },
@@ -99,6 +103,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     flexGrow: 1,
   },
+  searchOptionsAvatar: {
+    marginRight: 15,
+  },
 }));
 
 const Navbar = ({ userInfo }) => {
@@ -106,6 +113,7 @@ const Navbar = ({ userInfo }) => {
   const open = Boolean(anchorEl);
 
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const handelProfileMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -114,6 +122,24 @@ const Navbar = ({ userInfo }) => {
   const handelProfileMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const handelMyProfileClick = () => {
+    history.push(`/profile/${userInfo.user.id}`);
+    handelProfileMenuClose();
+  };
+
+  const handleProfileSelectFromSearch = (id) => {
+    history.push(`/profile/${id}`);
+  };
+
+  const history = useHistory();
+
+  const allProfiles = useSelector((state) => state.allProfiles);
+  const { loading, profiles } = allProfiles;
+
+  useEffect(() => {
+    dispatch(getAllProfiles());
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>
@@ -131,47 +157,66 @@ const Navbar = ({ userInfo }) => {
               </Typography>
             </div>
             <div className={classes.flexChild}>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  placeholder="Search…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  inputProps={{ "aria-label": "search" }}
+              {profiles && (
+                <Autocomplete
+                  options={profiles}
+                  loading={loading}
+                  onChange={(event, value) =>
+                    value && handleProfileSelectFromSearch(value.id)
+                  }
+                  getOptionLabel={(option) => option.username}
+                  renderOption={(option) => (
+                    <>
+                      <div className={classes.searchOptionsAvatar}>
+                        {
+                          <Avatar
+                            className={classes.logo}
+                            src={option.profilePhotoUrl}
+                            alt={option.username}
+                          />
+                        }
+                      </div>
+                      <p>{option.username}</p>
+                    </>
+                  )}
+                  style={{ width: 240, height: "60%" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Search Profile"
+                      variant="outlined"
+                    />
+                  )}
                 />
-              </div>
+              )}
             </div>
             <div className={classes.flexChild}>
               <div className={classes.links}>
                 <div className={classes.icon}>
-                  <NavLink to="/">
+                  <Link to="/">
                     <IconButton>
                       <ExploreIcon fontSize="large" />
                     </IconButton>
-                  </NavLink>
+                  </Link>
                 </div>
                 <div className={classes.icon}>
-                  <NavLink to="/chat">
+                  <Link to="/chat">
                     <IconButton>
                       <ChatIcon fontSize="large" />
                     </IconButton>
-                  </NavLink>
+                  </Link>
                 </div>
                 <div className={classes.icon}>
-                  <NavLink to="/likes">
+                  <Link to="/likes">
                     <IconButton>
                       <FavoriteIcon fontSize="large" />
                     </IconButton>
-                  </NavLink>
-                  <NavLink to="/addPost">
+                  </Link>
+                  <Link to="/addPost">
                     <IconButton>
                       <AddCircleIcon fontSize="large" />
                     </IconButton>
-                  </NavLink>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -198,10 +243,8 @@ const Navbar = ({ userInfo }) => {
                   open={open}
                   onClose={handelProfileMenuClose}
                 >
-                  <MenuItem onClick={handelProfileMenuClose}>
-                    My Profile
-                  </MenuItem>
-                  <MenuItem onClick={logout}>Logout</MenuItem>
+                  <MenuItem onClick={handelMyProfileClick}>My Profile</MenuItem>
+                  <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
                 </Menu>
               </div>
             </div>

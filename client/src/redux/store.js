@@ -2,7 +2,13 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { loginReducer, registerReducer } from "./reducers/userReducers";
-import { postsReducer, likedPostsReducer } from "./reducers/postReducers";
+import {
+  postsReducer,
+  likedPostsReducer,
+  singlePostReducer,
+} from "./reducers/postReducers";
+import { addPostReducer } from "./reducers/addPostReducers";
+import { profileReducer, allProfileReducer } from "./reducers/profileReducers";
 
 import jwt_decode from "jwt-decode";
 
@@ -11,19 +17,15 @@ const reducer = combineReducers({
   userRegister: registerReducer,
   userPosts: postsReducer,
   userLikePosts: likedPostsReducer,
+  userAddPost: addPostReducer,
+  userProfile: profileReducer,
+  userSinglePost: singlePostReducer,
+  allProfiles: allProfileReducer,
 });
 
 const userInfo = localStorage.getItem("accessToken")
   ? jwt_decode(JSON.parse(localStorage.getItem("accessToken")))
   : null;
-
-// const accessToken = localStorage.getItem("accessToken")
-//   ? JSON.parse(localStorage.getItem("accessToken"))
-//   : null;
-
-// const refreshToken = localStorage.getItem("refreshToken")
-//   ? JSON.parse(localStorage.getItem("refreshToken"))
-//   : null;
 
 const initialState = {
   userLogin: {

@@ -1,0 +1,66 @@
+.profile-wrapper > main {
+  margin-top: 25px;
+}
+
+.profile-post-grid-item {
+  max-height: 175px;
+}
+
+.profile-post-wrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-post-wrapper > img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-post-wrapper:hover .image-overlay {
+  height: 100%;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  transition: 0.5s ease;
+}
+
+.profile-post-overlay-icons {
+  color: white;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.profile-post-overlay-icon-wrapper {
+  width: 70%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 5px;
+}
+
+.profile-post-overlay-icon-wrapper > h2 {
+  margin: 0 0;
+}

@@ -19,3 +19,11 @@
   color: #57606f;
   margin: auto 0 0 auto;
 }
+
+.delete-post-button {
+  margin-left: auto;
+}
+
+.post-username {
+  cursor: pointer;
+}

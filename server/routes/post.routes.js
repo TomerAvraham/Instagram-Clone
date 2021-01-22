@@ -4,7 +4,7 @@ const authJwt = require("../middleware/jwt.middleware");
 
 router.get("/all", authJwt, async (req, res) => {
   try {
-    const posts_q = `SELECT posts.id, posts.create_at, posts.url , users.username, users.profilePhotoUrl 
+    const posts_q = `SELECT posts.id, posts.create_at, posts.url , users.username, users.profilePhotoUrl, posts.userId 
     FROM posts inner join users where posts.userId = users.id;`;
     let posts = await Query(posts_q);
 
@@ -75,7 +75,7 @@ router.post("/add", authJwt, async (req, res) => {
     const newPost_q = `insert into posts (userId, url) 
         values (?, ?)`;
     await Query(newPost_q, req.user.id, url);
-    res.status(201).send({ message: "newPostCreated" });
+    res.status(201).send({ message: "new Post Created" });
   } catch (error) {
     res.status(500).send({ message: "Something want wrong. Try again later." });
   }
@@ -83,7 +83,7 @@ router.post("/add", authJwt, async (req, res) => {
 
 router.get("/allByLike", authJwt, async (req, res) => {
   try {
-    const posts_q = `SELECT posts.id, posts.create_at, posts.url, users.username, users.profilePhotoUrl 
+    const posts_q = `SELECT posts.id, posts.create_at, posts.url, users.username, users.profilePhotoUrl, posts.userId
     FROM posts  inner join likes on posts.id = likes.postId
 inner join users where posts.userId = users.id and  likes.userWhoLikeId = ?`;
     let posts = await Query(posts_q, req.user.id);
@@ -102,6 +102,42 @@ inner join users where posts.userId = users.id and  likes.userWhoLikeId = ?`;
     }
 
     res.status(200).send({ posts });
+  } catch (error) {
+    res.status(500).send({ message: "Something want wrong. Please try again" });
+  }
+});
+
+router.delete("/delete/:postId", authJwt, async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const delete_q = "delete from posts where id = ? and userId = ?";
+    await Query(delete_q, postId, req.user.id);
+    res.status(200).send({ message: "Post deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Something want wrong. Please try again" });
+  }
+});
+
+router.get("/singlePost/:postId", authJwt, async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post_q = `SELECT posts.id, posts.create_at, posts.url , users.username, users.profilePhotoUrl, posts.userId 
+    FROM posts inner join users where posts.userId = users.id and posts.id = ?;`;
+
+    let post = await Query(post_q, postId);
+
+    const postLikes_q = `SELECT userWhoLikeId as userId, users.username FROM likes
+    inner join users on users.id = userWhoLikeId  where postId = ?
+   `;
+    const postComments_q = `SELECT users.username as commentUserUsername, users.profilePhotoUrl, comments.id,  comments.commentUserId, comments.create_at, 
+    comments.comment FROM comments inner join users on comments.commentUserId = users.id where postId = ?;`;
+
+    const likes = await Query(postLikes_q, post[0].id);
+    const comment = await Query(postComments_q, post[0].id);
+
+    post = { ...post[0], likes, comment };
+    res.status(200).send({ singlePost: post });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Something want wrong. Please try again" });

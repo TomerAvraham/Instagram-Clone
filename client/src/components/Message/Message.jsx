@@ -7,7 +7,7 @@ const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
-const Message = ({ message, isCreate = false }) => {
+const Message = ({ message, isGreen = false }) => {
   const [close, setClose] = useState(true);
 
   const handleClose = () => {
@@ -25,7 +25,7 @@ const Message = ({ message, isCreate = false }) => {
         autoHideDuration={5000}
         onClose={handleClose}
       >
-        <Alert severity={isCreate ? "success" : "error"}>{message}</Alert>
+        <Alert severity={isGreen ? "success" : "error"}>{message}</Alert>
       </Snackbar>
     </div>
   );

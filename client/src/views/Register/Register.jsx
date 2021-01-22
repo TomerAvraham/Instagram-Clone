@@ -5,9 +5,6 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
-import femaleProfile from "../../images/female_profile.jpg";
-import maleProfile from "../../images/male_profile.jpg";
-import otherProfile from "../../images/other_profile.gif";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Link, useHistory } from "react-router-dom";
 import "./Register.css";
@@ -115,7 +112,7 @@ const Register = () => {
       {isCreate || error ? (
         <Message
           message={error ? error : "User created successfully, Login now"}
-          isCreate={isCreate}
+          isGreen={isCreate}
         />
       ) : null}
       <div className="register-wrapper">
@@ -191,17 +188,17 @@ const Register = () => {
               aria-label="gender"
             >
               <FormControlLabel
-                value={femaleProfile}
+                value="/uploads/profileImages/female_profile.jpg"
                 control={<Radio />}
                 label="Female"
               />
               <FormControlLabel
-                value={maleProfile}
+                value="/uploads/profileImages/male_profile.jpg"
                 control={<Radio />}
                 label="Male"
               />
               <FormControlLabel
-                value={otherProfile}
+                value="/uploads/profileImages/other_profile.gif"
                 control={<Radio />}
                 label="Other"
               />
