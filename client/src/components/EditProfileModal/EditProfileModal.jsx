@@ -70,6 +70,7 @@ const EditProfileModal = ({ openModal, handleModalClose, profileImageUrl }) => {
       onClose={handelCloseAndResatModal}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      className="edit-profile-modal"
     >
       <form onSubmit={(e) => handelFileUpload(e)} className="modal-container">
         <div className="modal-image-container">
