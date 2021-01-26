@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import Button from "@material-ui/core/Button";
 import "./Chat.css";
 import ChatSingleMessage from "../../components/ChatSingleMessage/ChatSingleMessage";
@@ -16,6 +18,7 @@ const Chat = () => {
 
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
+  const [onlineCounter, setOnlineCounter] = useState(0);
 
   const handleInputChange = (e) => {
     setMessage(e.target.value);
@@ -38,26 +41,31 @@ const Chat = () => {
       socket = io.connect(ENDPOINT);
     }
 
-    socket.on("connect", () => {
-      console.log(socket);
+    socket.on("usersCount", (usersCounter) => {
+      console.log(usersCounter);
+      setOnlineCounter(usersCounter);
     });
 
     socket.on("message", (userMessage) => {
-      setChat([
-        ...chat,
-        { ...userMessage, isCurrUserSend: userMessage.userId === user.id },
-      ]);
+      const userIdMatch = userMessage.userId === user.id;
+
+      setChat([...chat, { ...userMessage, isCurrUserSend: userIdMatch }]);
     });
 
     socket.on("disconnect", () => {
-      console.log("user Dc");
+      console.log("user DC");
     });
   }, [chat, user]);
 
   return (
     <div className="chat-wrapper">
-      <div className="chat-container">
-        <h1>im chat</h1>
+      <Paper elevation={3} className="chat-container">
+        <div className="chat-navbar">
+          <div className="onlineCounter-wrapper">
+            <PersonOutlineIcon />
+            <span>{onlineCounter}</span>
+          </div>
+        </div>
         <div className="chat-messages-container">
           {chat.map((message, index) => (
             <ChatSingleMessage userMessage={message} key={index} />
@@ -69,7 +77,7 @@ const Chat = () => {
         >
           <TextField
             id="message-input"
-            placeholder="Type message.."
+            placeholder="Type something.."
             type="text"
             value={message}
             onChange={(e) => handleInputChange(e)}
@@ -83,7 +91,7 @@ const Chat = () => {
             SEND
           </Button>
         </form>
-      </div>
+      </Paper>
     </div>
   );
 };

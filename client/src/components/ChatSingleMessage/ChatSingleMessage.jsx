@@ -14,7 +14,14 @@ const ChatSingleMessage = ({ userMessage }) => {
   } = userMessage;
 
   return (
-    <Box elevation={3} className="chat-message-wrapper">
+    <Box
+      elevation={3}
+      className={
+        isCurrUserSend
+          ? "chat-message-wrapper-current-user"
+          : "chat-message-wrapper"
+      }
+    >
       <div className="chat-message-container">
         <div className="chat-message-avatar-wrapper">
           <Avatar
@@ -25,7 +32,14 @@ const ChatSingleMessage = ({ userMessage }) => {
           />
         </div>
         <p className="chat-message-content">
-          <Link className="chat-message-profile-link" to={`/profile/${userId}`}>
+          <Link
+            className={
+              isCurrUserSend
+                ? "chat-message-profile-link-current-user"
+                : "chat-message-profile-link"
+            }
+            to={`/profile/${userId}`}
+          >
             {username}:
           </Link>
           {message}

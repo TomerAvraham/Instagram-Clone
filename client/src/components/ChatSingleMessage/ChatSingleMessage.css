@@ -6,30 +6,43 @@
   max-width: 200px;
   margin: 10px 0;
   height: auto;
-  min-height: 60px;
-  max-height: 100%;
-  padding: 5px 0 0 10px;
+  padding-right: 7%;
+  padding-left: 7%;
   background-color: #3498db !important;
   color: #ecf0f1 !important;
   font-stretch: expanded;
   border-radius: 6px;
   white-space: pre-line;
-  /* overflow: auto; */
-  /* white-space: nowrap;
-  text-overflow: ellipsis; 
-  text-align: justify !important;
-  white-space: normal; */
+}
+
+.chat-message-wrapper-current-user {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 70%;
+  max-width: 200px;
+  margin: 10px 0 10px auto;
+  height: auto;
+  padding-right: 7%;
+  padding-left: 7%;
+  background-color: #ecf0f1 !important;
+  color: #3498db !important;
+  font-stretch: expanded;
+  border-radius: 6px;
+  vertical-align: initial;
+  white-space: pre-line;
 }
 
 .chat-message-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
-  height: 100%;
+  height: auto;
   padding: 0px 0px;
   width: 100%;
   min-height: 100px;
   word-wrap: break-word;
+  padding-top: 7%;
 }
 
 .chat-message-profile-link {
@@ -39,8 +52,21 @@
   padding-right: 10px;
 }
 
+.chat-message-profile-link-current-user {
+  text-decoration: none;
+  color: #3498db;
+  font-size: 1rem;
+  padding-right: 10px;
+}
+
+.chat-message-profile-link-current-user :hover {
+  color: #0b2333;
+  font-size: 1.5rem;
+}
+
 .chat-message-profile-link :hover {
-  color: #ffffff;
+  color: #524d4d;
+  font-size: 1.5rem;
 }
 
 .chat-message-avatar-wrapper {
@@ -58,5 +84,7 @@
   justify-content: flex-start;
   height: auto;
   word-wrap: break-word;
-  width: 100%;
+  max-width: 175px;
+  vertical-align: initial;
+  outline: none;
 }

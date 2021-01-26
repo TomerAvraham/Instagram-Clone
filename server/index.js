@@ -10,8 +10,13 @@ const server = http.createServer(app);
 
 const io = require("socket.io")(server);
 
-io.on("connection", (socket) => {
+let usersCounter = 0;
+
+io.on("connect", (socket) => {
   console.log("user connected");
+
+  usersCounter++;
+  io.emit("usersCount", usersCounter);
 
   socket.on("message", (userMessage) => {
     io.emit("message", userMessage);
@@ -19,6 +24,9 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
+
+    usersCounter--;
+    io.emit("usersCount", usersCounter);
   });
 });
 
