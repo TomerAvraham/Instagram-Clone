@@ -103,7 +103,7 @@ const Register = () => {
     if (isCreate) {
       setTimeout(() => {
         history.push("/login");
-      }, 3000);
+      }, 2000);
     }
   }, [isCreate, history]);
 

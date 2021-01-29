@@ -74,7 +74,7 @@ export const unFollowProfile = (profileId) => async (dispatch) => {
     });
 
     await fetch(BASE_URL + `profile/unFollow/${profileId}`, {
-      method: "POST",
+      method: "DELETE",
       headers: configHeaders(),
     });
 

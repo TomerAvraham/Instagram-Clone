@@ -25,8 +25,8 @@ router.get("/:id", authJwt, async (req, res) => {
 
     const userDetails_q = `select users.username, users.username,
     users.profilePhotoUrl, users.email, 
-    count(distinct followers.userId) as followers,
-    count(distinct followers.userWhoFollowingAfterId) as following,
+    (SELECT count(followers.userWhoFollowingAfterId) from followers where userWhoFollowingAfterId = ${id})as followers,
+	  (SELECT count(followers.userId) from followers where userId = ${id} ) as following,
     (SELECT EXISTS(SELECT * FROM followers WHERE userId = ${req.user.id} and userWhoFollowingAfterId = ${id}))
     as isCurrUserFollow
     from users
@@ -59,9 +59,9 @@ router.post("/follow", authJwt, async (req, res) => {
 router.delete("/unFollow/:id", authJwt, async (req, res) => {
   try {
     const { id } = req.params;
-    const unFollow_q = `delete from followers where userId = ? and userWhoFollowingAfterId = ?`;
+    const unFollow_q = `delete from followers where userId = ${req.user.id} and userWhoFollowingAfterId = ${id}`;
 
-    await Query(unFollow_q, req.user.id, id);
+    await Query(unFollow_q, id);
     res.status(200).send({ message: "unFollow Success" });
   } catch (error) {
     res.status(500).send({ message: "Something want wrong. Please try again" });
@@ -71,7 +71,6 @@ router.delete("/unFollow/:id", authJwt, async (req, res) => {
 router.put("/edit", authJwt, async (req, res) => {
   try {
     const { newUsername, newProfileUrl } = req.body;
-    console.log(req.body);
     let editProfile_q = "";
     if (!newUsername && newProfileUrl) {
       editProfile_q = `update users set profilePhotoUrl = "${newProfileUrl}" where id = ?`;

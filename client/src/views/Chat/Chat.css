@@ -39,7 +39,28 @@
 }
 
 .chat-navbar {
-  width: 100%;
+  width: 90%;
   height: 8%;
   border-bottom: #b2bec3 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 40px;
+}
+
+.onlineCounter-wrapper {
+  width: 40px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-left: 15px;
+}
+
+.onlineCounter-wrapper > p {
+  padding: 0 7px;
+}
+
+.user-typing-wrapper {
+  margin-left: auto;
 }

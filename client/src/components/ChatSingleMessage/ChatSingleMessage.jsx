@@ -31,19 +31,21 @@ const ChatSingleMessage = ({ userMessage }) => {
             title={username}
           />
         </div>
-        <p className="chat-message-content">
-          <Link
-            className={
-              isCurrUserSend
-                ? "chat-message-profile-link-current-user"
-                : "chat-message-profile-link"
-            }
-            to={`/profile/${userId}`}
-          >
-            {username}:
-          </Link>
-          {message}
-        </p>
+        <div className="chat-message-content">
+          <p>
+            <Link
+              className={
+                isCurrUserSend
+                  ? "chat-message-profile-link-current-user"
+                  : "chat-message-profile-link"
+              }
+              to={`/profile/${userId}`}
+            >
+              {username}:
+            </Link>
+            {message}
+          </p>
+        </div>
       </div>
     </Box>
   );

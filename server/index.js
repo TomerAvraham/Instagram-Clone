@@ -8,7 +8,9 @@ const fileUpload = require("express-fileupload");
 const app = express();
 const server = http.createServer(app);
 
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  reconnection: false
+});
 
 let usersCounter = 0;
 
@@ -20,6 +22,10 @@ io.on("connect", (socket) => {
 
   socket.on("message", (userMessage) => {
     io.emit("message", userMessage);
+  });
+
+  socket.on("user typing", (username) => {
+    io.emit("show user typing", username);
   });
 
   socket.on("disconnect", () => {
