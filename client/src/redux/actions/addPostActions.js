@@ -10,7 +10,7 @@ import {
 import { configHeaders } from "../../helpers/configHeaders";
 import { changeTypesName } from "../../helpers/changeTypesName";
 
-const BASE_URL = "http://localhost:5000/";
+const BASE_URL = "https://ultragram-mysql.herokuapp.com/";
 
 export const uploadImage = (file, path) => async (dispatch) => {
   try {

@@ -18,7 +18,7 @@ import {
 
 import { configHeaders } from "../../helpers/configHeaders";
 
-const BASE_URL = "http://localhost:5000/api/";
+const BASE_URL = "https://ultragram-mysql.herokuapp.com/api/";
 
 export const getProfileDetails = (userId) => async (dispatch) => {
   try {

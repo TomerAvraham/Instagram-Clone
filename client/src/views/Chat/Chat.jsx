@@ -11,7 +11,7 @@ import { Prompt } from "react-router-dom";
 import io from "socket.io-client";
 
 const Chat = () => {
-  const ENDPOINT = "http://localhost:5000/";
+  const ENDPOINT = "https://ultragram-mysql.herokuapp.com/";
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   const { user } = userInfo;
