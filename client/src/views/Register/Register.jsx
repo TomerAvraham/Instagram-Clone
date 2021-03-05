@@ -188,17 +188,17 @@ const Register = () => {
               aria-label="gender"
             >
               <FormControlLabel
-                value="/uploads/profileImages/female_profile.jpg"
+                value="https://ultragram-mysql.herokuapp.com/upload/profileImages/female_profile.jpg"
                 control={<Radio />}
                 label="Female"
               />
               <FormControlLabel
-                value="/uploads/profileImages/male_profile.jpg"
+                value="https://ultragram-mysql.herokuapp.com/upload/profileImages/male_profile.jpg"
                 control={<Radio />}
                 label="Male"
               />
               <FormControlLabel
-                value="/uploads/profileImages/other_profile.gif"
+                value="https://ultragram-mysql.herokuapp.com/upload/profileImages/other_profile.gif"
                 control={<Radio />}
                 label="Other"
               />

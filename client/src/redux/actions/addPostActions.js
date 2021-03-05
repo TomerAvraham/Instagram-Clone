@@ -10,7 +10,7 @@ import {
 import { configHeaders } from "../../helpers/configHeaders";
 import { changeTypesName } from "../../helpers/changeTypesName";
 
-const BASE_URL = "https://ultragram-mysql.herokuapp.com/";
+const BASE_URL = "https://ultragram-mysql.herokuapp.com/api/";
 
 export const uploadImage = (file, path) => async (dispatch) => {
   try {
@@ -45,7 +45,7 @@ export const addPost = (userId, filePath) => async (dispatch) => {
   try {
     dispatch({ type: ADD_POST_REQUEST });
 
-    const res = await fetch(BASE_URL + "api/post/add", {
+    const res = await fetch(BASE_URL + "post/add", {
       method: "POST",
       headers: configHeaders(),
       body: JSON.stringify({ userId, url: filePath }),

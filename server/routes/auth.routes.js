@@ -26,9 +26,11 @@ router.post("/login", async (req, res) => {
     const user = result[0];
     if (await bcrypt.compare(password, user.password)) {
       delete user.password;
-      const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "30min",
-      });
+      const accessToken = jwt.sign(
+        { user },
+        process.env.ACCESS_TOKEN_SECRET,
+        {}
+      );
       const refreshToken = jwt.sign(
         { userId: user.id },
         process.env.REFRESH_TOKEN_SECRET,
@@ -63,7 +65,8 @@ router.post("/register", authRegister, async (req, res) => {
 
 router.post("/token", (req, res) => {
   const { refreshToken } = req.body;
-  if (!refreshToken) return res.status(403).send({message: "No Token Provided"});
+  if (!refreshToken)
+    return res.status(403).send({ message: "No Token Provided" });
   jwt.verify(
     refreshToken,
     process.env.REFRESH_TOKEN_SECRET,

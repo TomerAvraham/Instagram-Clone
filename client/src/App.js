@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./App.css";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Register from "./views/Register/Register";
 import Login from "./views/Login/Login";
 import Feed from "./views/Feed/Feed";
@@ -10,24 +10,11 @@ import Chat from "./views/Chat/Chat";
 import Profile from "./views/Profile/Profile";
 import LikedPosts from "./views/LikedPosts/LikedPosts";
 import AddPost from "./views/AddPost/AddPost";
-import { getAccessToken } from "./redux/actions/userActions";
 import SinglePost from "./views/SinglePost/SinglePost";
 
 const App = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { isAuth, userInfo } = userLogin;
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (
-      userInfo &&
-      localStorage.refreshToken &&
-      new Date() >= userInfo?.exp * 1000
-    ) {
-      dispatch(getAccessToken());
-    }
-  }, [dispatch, userInfo]);
 
   return (
     <div className="app-root">

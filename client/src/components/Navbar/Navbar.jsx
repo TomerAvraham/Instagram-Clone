@@ -15,7 +15,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { logout } from "../../redux/actions/userActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import HideOnScroll from "./HideOnScroll";
 import BackToTop from "./BackToTop";
 import MenuItems from "./MenuItems";
@@ -112,6 +112,9 @@ const Navbar = ({ userInfo }) => {
 
   window.addEventListener("resize", showMenuButton);
 
+  const userProfile = useSelector((state) => state.userProfile);
+  const { profileDetails } = userProfile;
+
   useEffect(() => {
     showMenuButton();
   }, [dispatch]);
@@ -168,7 +171,10 @@ const Navbar = ({ userInfo }) => {
                     <IconButton onClick={handelProfileMenu}>
                       <Avatar
                         alt={userInfo.user.username}
-                        src={userInfo.user.profilePhotoUrl}
+                        src={
+                          profileDetails?.profilePhotoUrl ||
+                          userInfo.user.profilePhotoUrl
+                        }
                       />
                     </IconButton>
                     <Menu

@@ -1,5 +1,8 @@
 const router = require("express").Router();
+const path = require("path");
 const { v4 } = require("uuid");
+
+const fileUrl = "https://ultragram-mysql.herokuapp.com/upload/";
 
 router.post("/toPostImages", (req, res) => {
   if (req.files === null) {
@@ -15,15 +18,18 @@ router.post("/toPostImages", (req, res) => {
     file.mimetype == "image/gif" ||
     file.mimetype == "image/x-icon"
   ) {
-    file.mv(`${__dirname}/../../client/public/uploads/postImages/${fileName}`, (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send({ message: err.message });
+    file.mv(
+      path.join(`${__dirname}/../upload/postImages/${fileName}`),
+      (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send({ message: err.message });
+        }
       }
-    });
+    );
 
     return res.status(200).send({
-      filePath: `/uploads/postImages/${fileName}`,
+      filePath: `${fileUrl}postImages/${fileName}`,
     });
   } else {
     return res.status(400).send({ message: "Image Files Only" });
@@ -44,15 +50,18 @@ router.post("/toProfileImages", (req, res) => {
     file.mimetype == "image/gif" ||
     file.mimetype == "image/x-icon"
   ) {
-    file.mv(`${__dirname}/../../client/public/uploads/profileImages/${fileName}`, (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send({ message: err.message });
+    file.mv(
+      path.join(`${__dirname}/../upload/profileImages/${fileName}`),
+      (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send({ message: err.message });
+        }
       }
-    });
+    );
 
     return res.status(200).send({
-      filePath: `/uploads/profileImages/${fileName}`,
+      filePath: `${fileUrl}profileImages/${fileName}`,
     });
   } else {
     return res.status(400).send({ message: "Image Files Only" });

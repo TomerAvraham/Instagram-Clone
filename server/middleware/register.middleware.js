@@ -40,9 +40,10 @@ const authRegister = async (req, res, next) => {
       return res.status(409).send({ message: "Email already exist" });
     }
   } catch (error) {
+    console.log(error)
     return res
       .status(500)
-      .send({ message: "Something want wrong. Tty again later" });
+      .send({ message: "Something want wrong. Try again later" });
   }
   next();
 };

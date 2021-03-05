@@ -38,6 +38,7 @@ export const loginReducer = (state = {}, action) => {
       return { loading: false, isAuth: false, error: true };
     case LOGOUT:
       return {};
+
     default:
       return state;
   }
