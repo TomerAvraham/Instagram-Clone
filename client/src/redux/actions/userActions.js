@@ -29,8 +29,6 @@ export const login = ({ username, password }) => async (dispatch) => {
 
     const data = await res.json();
 
-    console.log(data);
-
     if (res.status >= 400) {
       return dispatch({
         type: LOGIN_FAIL,
