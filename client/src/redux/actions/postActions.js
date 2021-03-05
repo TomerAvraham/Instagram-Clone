@@ -85,7 +85,6 @@ export const getAllLikedPosts = () => async (dispatch) => {
 
 export const likePost = (postId) => async (dispatch) => {
   try {
-    console.log(changeTypesName());
     dispatch({
       type: changeTypesName(LIKE_POST_REQUEST),
     });
